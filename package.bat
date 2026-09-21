@@ -21,9 +21,9 @@ copy "README.md" "dist\temp_pkg\README.txt" >nul
 copy "LICENSE" "dist\temp_pkg\LICENSE.txt" >nul
 
 :: Create Standard Package using PowerShell Compress-Archive
-echo Creating Standard Package: dist\FFX_Cutscene_Skip_v1.0.0.zip...
-if exist "dist\FFX_Cutscene_Skip_v1.0.0.zip" del "dist\FFX_Cutscene_Skip_v1.0.0.zip"
-powershell -Command "Compress-Archive -Path 'dist\temp_pkg\*' -DestinationPath 'dist\FFX_Cutscene_Skip_v1.0.0.zip'"
+echo Creating Standard Package: dist\FFX_Cutscene_Skip_v1.0.1.zip...
+if exist "dist\FFX_Cutscene_Skip_v1.0.1.zip" del "dist\FFX_Cutscene_Skip_v1.0.1.zip"
+powershell -Command "Compress-Archive -Path 'dist\temp_pkg\*' -DestinationPath 'dist\FFX_Cutscene_Skip_v1.0.1.zip'"
 
 :: Create Standalone Package (includes dinput8.dll and hook.ini from game folder if available)
 set "GAME_DIR=C:\Games\Steam\steamapps\common\FINAL FANTASY FFX&FFX-2 HD Remaster"
@@ -33,9 +33,9 @@ if exist "%GAME_DIR%\dinput8.dll" (
     copy "%GAME_DIR%\hook.ini" "dist\temp_pkg\" >nul
     if exist "%GAME_DIR%\simpleLog.dll" copy "%GAME_DIR%\simpleLog.dll" "dist\temp_pkg\" >nul
 
-    echo Creating All-in-One Package: dist\FFX_Cutscene_Skip_AllInOne_v1.0.0.zip...
-    if exist "dist\FFX_Cutscene_Skip_AllInOne_v1.0.0.zip" del "dist\FFX_Cutscene_Skip_AllInOne_v1.0.0.zip"
-    powershell -Command "Compress-Archive -Path 'dist\temp_pkg\*' -DestinationPath 'dist\FFX_Cutscene_Skip_AllInOne_v1.0.0.zip'"
+    echo Creating All-in-One Package: dist\FFX_Cutscene_Skip_AllInOne_v1.0.1.zip...
+    if exist "dist\FFX_Cutscene_Skip_AllInOne_v1.0.1.zip" del "dist\FFX_Cutscene_Skip_AllInOne_v1.0.1.zip"
+    powershell -Command "Compress-Archive -Path 'dist\temp_pkg\*' -DestinationPath 'dist\FFX_Cutscene_Skip_AllInOne_v1.0.1.zip'"
 )
 
 rmdir /s /q "dist\temp_pkg"

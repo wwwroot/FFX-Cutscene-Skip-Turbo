@@ -1,68 +1,27 @@
-# Final Fantasy X HD Remaster - Cutscene Skip & Turbo Mod
+# FFX Cutscene Skip & Turbo
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: Windows x86](https://img.shields.io/badge/Platform-Windows%20x86-lightgrey.svg)]()
-[![Game: FFX HD Remaster](https://img.shields.io/badge/Game-Final%20Fantasy%20X%20HD-blueviolet.svg)]()
-
-A native C++ modification for **Final Fantasy X HD Remaster (Steam / PC)** providing opening logo bypass, automated dialogue/cutscene progression, and configurable game clock acceleration.
-
-Designed as a standalone module for the FFX external module loader with zero runtime dependencies.
-
----
+A native C++ modification for Final Fantasy X HD Remaster (PC / Steam) that provides opening logo skip, dialogue fast-forward, and variable game clock acceleration.
 
 ## Features
 
-- **Intro & Splash Skip**:
-  - Bypasses publisher and developer splash screens (Square Enix, Virtuos, CRIWARE, Dolby) on startup.
-  - Boots directly into the main menu.
-  - Configurable via `SkipIntro` in `ff10-cutscene-skip.ini`.
-
-- **In-Engine Dialogue & Cutscene Acceleration**:
-  - Automatically advances dialogue text boxes and in-engine event timers while preserving script state.
-
-- **Configurable Turbo Clock (Default 8.0x)**:
-  - Accelerates internal game logic clock (configurable from `1.0x` to `64.0x`).
-
-- **Battle State Safety**:
-  - Continuously reads the battle engine state and automatically suspends Turbo during active combat or scripted boss encounters to prevent script softlocks and animation desyncs.
-
-- **Input Controls**:
-  - **Keyboard**: Default `R` key.
-  - **Gamepad (XInput)**: Default `Select + X`.
-  - Supports both **Toggle** and **Hold** modes.
-
-- **On-Screen Display (OSD)**:
-  - Lightweight overlay indicating active Turbo multiplier in the corner of the window.
-  - Non-intrusive implementation without Direct3D hook overhead.
-
-- **Diagnostic Logging**:
-  - Optional scene, opcode, and battle transition tracing written to `cutscene_skip.log`.
-
-- **Compatibility**:
-  - Compatible with FFX External File Loader, custom textures, audio mods, and Reshade.
-
----
+- **Intro Skip**: Automatically bypasses opening publisher and engine splash screens (Square Enix, Virtuos, CRIWARE, Dolby) directly to the title screen.
+- **Dialogue Fast-Forward**: Advances text boxes and dialogue delays when Turbo is engaged.
+- **Turbo Speed Hack**: Configurable game clock multiplier (default 8.0x) for dialogue and field exploration.
+- **Battle & Movie Safety**: Automatically disengages Turbo during active combat and pre-rendered FMV sequences to prevent script desync, audio stutter, and video playback errors.
+- **Controller & Keyboard Support**: Toggle or hold mode via keyboard (`R` by default) or gamepad combo (`Select + X`).
+- **Minimal OSD**: Simple on-screen indicator in the top-right corner showing active Turbo status. Automatically hides when Turbo is disengaged, in combat, during FMVs, or when the game window loses focus.
 
 ## Installation
 
-### Prerequisites
-- Final Fantasy X/X-2 HD Remaster (Steam release)
-- FFX External File Loader (`dinput8.dll`) installed in the game directory
-
-### Standard Installation
-1. Download `FFX_Cutscene_Skip_v1.0.0.zip`.
-2. Extract the `modules` directory into your game installation folder:
+### Method 1: Existing Module Loader
+If you already use `dinput8.dll` / FFX Module Loader:
+1. Copy the `modules` directory from `FFX_Cutscene_Skip_v1.0.1.zip` into your game root directory:
    ```text
    ...\SteamLibrary\steamapps\common\FINAL FANTASY FFX&FFX-2 HD Remaster\
    ```
-3. Launch the game via Steam.
 
-### Standalone / Fresh Install
-1. Download `FFX_Cutscene_Skip_AllInOne_v1.0.0.zip`.
-2. Extract all contents directly into the game root directory.
-3. Launch the game via Steam.
-
----
+### Method 2: Standalone Installation
+Extract all files from `FFX_Cutscene_Skip_AllInOne_v1.0.1.zip` directly into your game root directory.
 
 ## Configuration
 
@@ -70,80 +29,48 @@ Settings can be modified in `modules/config/ff10-cutscene-skip.ini`:
 
 ```ini
 [Settings]
-; Speed multiplier applied when Turbo is engaged (e.g. 4.0, 8.0, 16.0).
 SpeedMultiplier = 8.0
-
-; Automatically bypass dialogue pauses and cutscene wait timers when Turbo is active.
 SkipCutscenesAtSpeed = true
-
-; Skip publisher and engine splash logos on launch and boot directly to menu.
 SkipIntro = true
-
-; Input control mode: "Toggle" or "Hold".
 ControlMode = Toggle
-
-; Keyboard hotkey (e.g. R, G, F1-F5, TAB, SPACE).
 KeyboardHotkey = R
-
-; Enable controller input monitoring (XInput).
 EnableGamepad = true
-
-; Gamepad button combination (e.g. SELECT+X, SELECT+A, L3+R3, LB+RB).
 GamepadCombo = SELECT+X
-
-; Render Turbo status indicator when active.
 ShowOSD = true
-
-; Automatically disable Turbo during combat encounters.
 AutoDisableInBattle = true
-
-; Enable diagnostic logging to cutscene_skip.log.
-LogToFile = true
-
-; Detailed event and scene tracing.
-DebugMode = true
+LogToFile = false
+DebugMode = false
 ```
 
----
+### Hotkey Options
+- **Keyboard**: Single key names (e.g. `R`, `G`, `TAB`, `SPACE`, `F1`-`F12`).
+- **Gamepad**: Key combinations in `BUTTON+BUTTON` format (e.g. `SELECT+X`, `BACK+A`, `L3+R3`, `LB+RB`).
+- **ControlMode**: `Toggle` (press once to enable/disable) or `Hold` (active only while button is held).
 
 ## Building from Source
 
-### Requirements
-- Windows 10 / 11
-- Visual Studio 2022 (Desktop development with C++ workload)
-- MSVC x86 build tools (`cl.exe`)
+Requires Visual Studio (x86 MSVC toolchain).
 
-### Build
-Run the build script from a Developer Command Prompt:
 ```bat
 build.bat
 ```
-The compiled DLL is output to `bin/ff10-cutscene-skip.dll`.
 
-### Tests
-Run the unit test suite:
+To run test suites:
 ```bat
 run_tests.bat
 ```
 
-### Packaging
-Generate release archives:
+To package release archives:
 ```bat
 package.bat
 ```
-Output files are written to `dist/`.
 
----
+## Credits
 
-## Credits & References
-
-- **Kaldaien & "Untitled Project X" (UnX)**: Research and initial implementations of game clock manipulation in FFX HD.
-- **ffgriever**: FFX Module Loader hook interface.
-- **Tsuda Kageyu**: [MinHook](https://github.com/TsudaKageyu/minhook) detour library.
-- **Square Enix**: Final Fantasy X.
-
----
+- **Kaldaien**: Research on FFX speed mechanics from UnX.
+- **ffgriever**: FFX Module Loader interface.
+- **Tsuda Kageyu**: MinHook library.
 
 ## License
 
-Distributed under the [MIT License](LICENSE).
+MIT License. See [LICENSE](LICENSE) for details.

@@ -1,5 +1,6 @@
 #include "osd.h"
 #include "config.h"
+#include "speedhack.h"
 #include <atomic>
 #include <cstdio>
 
@@ -143,8 +144,10 @@ static DWORD WINAPI OsdThreadProc(LPVOID lpParam)
 		bool isGameFocused = (g_hGameWnd && foregroundWnd == g_hGameWnd);
 		bool isGameMinimized = (g_hGameWnd && IsIconic(g_hGameWnd));
 		bool isGameVisible = (g_hGameWnd && IsWindowVisible(g_hGameWnd));
+		bool inBattle = IsInBattle();
+		bool inMovie = IsMoviePlaying();
 
-		bool shouldBeVisible = turboActive && g_Config.showOSD && isGameFocused && !isGameMinimized && isGameVisible;
+		bool shouldBeVisible = turboActive && g_Config.showOSD && isGameFocused && !isGameMinimized && isGameVisible && !inBattle && !inMovie;
 
 		if (shouldBeVisible)
 		{

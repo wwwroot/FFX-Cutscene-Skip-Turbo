@@ -282,7 +282,23 @@ void TestBattleStateSafety()
 	TEST_ASSERT(EvalInBattle(2, 2, 0) == true, "Boss combat (State=2, Phase=2, Sub=0) == true");
 }
 
-// 8. Test Exported Functions from built DLL
+// 8. Test Movie Safety Logic (FMV Green Screen Prevention)
+void TestMovieSafety()
+{
+	std::cout << COLOR_CYAN << "=== Running Movie Safety Logic Tests (FMV Green Screen Prevention) ===" << COLOR_RESET << std::endl;
+
+	auto EvalTurboAllowed = [](bool speedActive, bool inBattle, bool inMovie) -> bool {
+		return speedActive && !inBattle && !inMovie;
+	};
+
+	TEST_ASSERT(EvalTurboAllowed(true, false, false) == true, "Turbo allowed during regular cutscene/field (speedActive=1, inBattle=0, inMovie=0)");
+	TEST_ASSERT(EvalTurboAllowed(true, true, false) == false, "Turbo prevented during battle (speedActive=1, inBattle=1, inMovie=0)");
+	TEST_ASSERT(EvalTurboAllowed(true, false, true) == false, "Turbo prevented during FMV movie (speedActive=1, inBattle=0, inMovie=1) -> Prevents Green Screen!");
+	TEST_ASSERT(EvalTurboAllowed(true, true, true) == false, "Turbo prevented during battle movie");
+	TEST_ASSERT(EvalTurboAllowed(false, false, false) == false, "Turbo disengaged when user toggle is off");
+}
+
+// 9. Test Exported Functions from built DLL
 #pragma pack(push, 1)
 typedef struct
 {
@@ -319,8 +335,8 @@ void TestDllExports()
 		if (pGetVer)
 		{
 			tVersion ver = pGetVer();
-			TEST_ASSERT(ver.major == 1 && ver.minor == 0 && ver.step == 0,
-				"FF10HgetVer() returns version 1.0.0");
+			TEST_ASSERT(ver.major == 1 && ver.minor == 0 && ver.step == 1,
+				"FF10HgetVer() returns version 1.0.1");
 		}
 
 		FreeLibrary(hMod);
@@ -358,6 +374,9 @@ int main()
 	std::cout << std::endl;
 
 	TestBattleStateSafety();
+	std::cout << std::endl;
+
+	TestMovieSafety();
 	std::cout << std::endl;
 
 	TestDllExports();

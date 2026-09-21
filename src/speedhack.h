@@ -7,6 +7,7 @@ void ShutdownSpeedHack();
 void SetSpeedActive(bool active);
 bool IsSpeedActive();
 bool IsInBattle();
+bool IsMoviePlaying();
 uint8_t GetBattleState();
 uint8_t GetBattlePhase();
 uint8_t GetBattleSub();

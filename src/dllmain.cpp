@@ -14,7 +14,7 @@ __declspec(dllexport) const char *FF10HgetName() {
   return s_ModuleName;
 }
 
-__declspec(dllexport) tVersion FF10HgetVer() { return {1, 0, 0}; }
+__declspec(dllexport) tVersion FF10HgetVer() { return {1, 0, 1}; }
 }
 
 static DWORD WINAPI InitThread(LPVOID lpParam) {
