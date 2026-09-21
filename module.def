@@ -1,0 +1,4 @@
+LIBRARY ff10-cutscene-skip
+EXPORTS
+	FF10HgetName
+	FF10HgetVer

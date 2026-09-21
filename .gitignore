@@ -1,0 +1,19 @@
+# MSVC compiler outputs & binaries
+*.obj
+*.exp
+*.lib
+*.pdb
+*.ilk
+bin/
+dist/temp_pkg/
+
+# Diagnostic logs & local test files
+*.log
+test_config.ini
+
+# IDE & OS files
+.vs/
+.vscode/
+*.user
+Thumbs.db
+[Dd]esktop.ini
